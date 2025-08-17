@@ -362,17 +362,19 @@ int FixStats(int self)
 // Fills in the item name, giving damage range and adjusting for stats and
 // enchants...  Also handles stat requirements and parenthetical text...
 ItemName(int base_text, int paren_text, int damage_type, int damage_low, int damage_high, int wound_low, int wound_high)
-  int enchantment, item_index
+  int enchantment, item_index, dexterity
   int binding, strength, reqstr, reqdex, reqint, reqmana
   binding = FindBinding()
   item_index = SystemGet(SYS_ITEMINDEX, 0, 0)
   strength = 0
+  dexterity = 0
   reqstr = 0
   reqdex = 0
   reqint = 0
   reqmana = 0
   if(binding)
     strength = binding.str
+    dexterity = binding.dex
     reqstr = SystemGet(SYS_ITEMREGISTRYSTR, item_index, 0)
     reqdex = SystemGet(SYS_ITEMREGISTRYDEX, item_index, 0)
     reqint = SystemGet(SYS_ITEMREGISTRYINT, item_index, 0)
@@ -446,8 +448,19 @@ ItemName(int base_text, int paren_text, int damage_type, int damage_low, int dam
         if(enchantment == WEAPON_VARIANT_UNHOLY)
           damage_low = damage_low + 3
           damage_high = damage_high + 3
-        damage_low = damage_low + (strength/10)
-        damage_high = damage_high + (strength/10)
+        if (binding && binding.class == CLASS_HUBBIN)
+                // Check if the item index is in the dagger's range (136-143)
+                if (item_index >= ITEM_DAGGER && item_index < ITEM_SHORT_SWORD)
+                    damage_low = damage_low + 1
+                    damage_high = damage_high + 1
+        // --- ATTRIBUTE BONUS LOGIC
+        // SPECIAL CASE: If it's a dagger, use Dexterity
+        //if (item_index >= ITEM_DAGGER && item_index < ITEM_SHORT_SWORD)
+        //    damage_low = damage_low + (dexterity / 10)
+        //    damage_high = damage_high + (dexterity / 10)
+        //else // For all other weapons, use Strength
+        damage_low = damage_low + (strength / 10)
+        damage_high = damage_high + (strength / 10)
       ItemNameDamage(damage_type, damage_low, damage_high, wound_low, wound_high)
 
 
@@ -2142,7 +2155,7 @@ int Event()
       if(self.z > RoomWaterLevel())
         if(self.hits > 0 || self.pttimer == 0)
           PDUST.Effect(30)
-        SystemSet(SYS_SCREENSHAKE, 0, 2, 15)
+        SystemSet(SYS_SCREENSHAKE, 0, 1, 5)
       if(self.hits < 1)
         if(self.pttimer > 0)
           CSTATUE.RubbleEffect(self.x, self.y, self.z, self.boxsize, self.height, FALSE)

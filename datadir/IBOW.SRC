@@ -1,17 +1,23 @@
 //-----------------------------------------------------------------------
 int GetName()
   int type, damage_type, damage_low, damage_high
-  int name, enchantment, binding, strength
+  int name, enchantment, binding, dexterity
+  int self
 
+  self = FindSelf()
   type = SystemGet(SYS_ITEMINDEX, 0, 0) & 252
   enchantment = SystemGet(SYS_ITEMINDEX, 0, 0) & 3
   damage_type = DAMAGE_EDGE
   damage_low = 1
   damage_high = 3
-  strength = 0
+  dexterity = 0
+
+ 
+
   binding = FindBinding()
   if(binding)
-    strength = binding.str
+    dexterity = binding.dex
+
   if(type == ITEM_BOW)
     name = "BOW"
   else
@@ -29,8 +35,12 @@ int GetName()
     damage_type = DAMAGE_ICE
     damage_low = damage_low+2
     damage_high = damage_high+2
-  damage_low = damage_low + (strength/10)
-  damage_high = damage_high + (strength/10)
+
+  damage_low = damage_low + (dexterity/10)
+  damage_high = damage_high + (dexterity/10)
+  if (binding && binding.class == CLASS_ELF)
+    damage_low = damage_low + 1
+    damage_high = damage_high + 1
   STANDARD.ItemName(name, NULL, damage_type, damage_low, damage_high, 1, 1)
 
 //-----------------------------------------------------------------------
@@ -87,7 +97,7 @@ int FrameEvent()
   speed = 1.0 + (0.006*str)
   if(type == ITEM_LONG_BOW)
     speed = speed + 0.6
-  AutoAim(speed, 70.0, self.spin, self.team, dex, 8192 + (164*dex), AUTOAIM_CRUNCH_BALLISTIC)
+  AutoAim(speed, 70.0, self.spin, self.team, (dex*3), 4096 + (82*dex), AUTOAIM_CRUNCH_BALLISTIC)
   vx = AutoAim(0.0, 0.0, 0, 0, 0, 0, AUTOAIM_X)
   vy = AutoAim(0.0, 0.0, 0, 0, 0, 0, AUTOAIM_Y)
   vz = AutoAim(0.0, 0.0, 0, 0, 0, 0, AUTOAIM_Z)

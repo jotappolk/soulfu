@@ -11,12 +11,15 @@ int GetName()
 //-----------------------------------------------------------------------
 // Called when attack particle is supposed to be spawned
 int FrameEvent()
-  int grip, damage, wound, self
+  int grip, damage, wound, self, 
 
   self = FindSelf()
   grip = SystemGet(SYS_WEAPONGRIP, 0, 0)
   damage = RollDice(1, DAMAGE_HIGH-DAMAGE_LOW+1)+DAMAGE_LOW-1
   wound = RollDice(1, WOUND_HIGH-WOUND_LOW+1)+WOUND_LOW-1
+  if(self.class == CLASS_HUBBIN)
+    damage = damage + 1
+
   PATTACK.FrameEvent(DAMAGE_TYPE, damage, wound, grip, WEAPON_RANGE_EXTRA_SHORT, WEAPON_RADIUS_MEDIUM, SPECIAL_FLAG_BACKSTAB, SystemGet(SYS_ITEMINDEX, 0, 0)&7)
   PlaySound("FILE:SWIPE.RAW", 225 + RollDice(1, 50), 255)
 

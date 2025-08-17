@@ -34,7 +34,7 @@ int FrameEvent()
 
 
   // Aim at the best enemy target...
-  AutoAim(1.5, 0.0, self.spin, self.team, dex, 8192 + (164*dex), AUTOAIM_CRUNCH)
+  AutoAim(1.5, 0.0, self.spin, self.team, dex, 4096 + (82*dex), AUTOAIM_CRUNCH)
   vx = AutoAim(0.0, 0.0, 0, 0, 0, 0, AUTOAIM_X)
   vy = AutoAim(0.0, 0.0, 0, 0, 0, 0, AUTOAIM_Y)
   vz = AutoAim(0.0, 0.0, 0, 0, 0, 0, AUTOAIM_Z)

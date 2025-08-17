@@ -85,7 +85,7 @@ int Setup()
 
   // Add all armor items (4 variants each)...
   RegisterArmor(ITEM_BOW,            "FILE:IBOW.RUN",    "FILE:=IBOW.RGB",     NULL,     50, ITEM_FLAG_LEFT,  0, 0, 0, 0, 0)
-  RegisterArmor(ITEM_LONG_BOW,       "FILE:IBOW.RUN",    "FILE:=ILBOW.RGB",    NULL,    200, ITEM_FLAG_LEFT, 20, 0, 0, 0, 0)
+  RegisterArmor(ITEM_LONG_BOW,       "FILE:IBOW.RUN",    "FILE:=ILBOW.RGB",    NULL,    200, ITEM_FLAG_LEFT, 10, 20, 0, 0, 0)
   RegisterArmor(ITEM_SHIELD,         "FILE:ISHIELD.RUN", "FILE:=ISHIELD.RGB",  NULL,     50, ITEM_FLAG_LEFT, 10, 0, 0, 0, 0)
   RegisterArmor(ITEM_MIRROR_SHIELD,  "FILE:ISHIELD.RUN", "FILE:=IMIRROR.RGB",  NULL,   1000, ITEM_FLAG_LEFT, 30, 0, 0, 0, 0)
   RegisterArmor(ITEM_HELM_1,         "FILE:IHELM1.RUN",  "FILE:=IHELM1.RGB",   NULL,     50, ITEM_FLAG_HELM,  0, 0, 0, 0, 0)

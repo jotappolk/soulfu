@@ -27,12 +27,12 @@
 unsigned short onscreen_draw_count;
 
 #include "soulfu.h"
+#include "logfile.h"
+#include "random.h"
 
-#include "logfile.c"
 #include "gameseed.c"
 #include "common.c"
 #include "datafile.c"
-#include "random.c"
 #include "object.c"
 #include "dcodejpg.c"
 #include "dcodepcx.c"

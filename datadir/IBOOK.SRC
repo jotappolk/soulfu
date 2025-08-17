@@ -22,6 +22,7 @@ int Effect(int self)
   screenx = SystemGet(SYS_SCREENPARAMS, 0, 2)
 
   if(self)
+    self.int = self.int + 1
     ButtonSound()
     type = SystemGet(SYS_ITEMINDEX, 0, 0)
 
@@ -70,5 +71,6 @@ int DirectUsage()
 
   self = FindBinding()
   Effect(self)
+  SystemSet(SYS_KEEPITEM, 0, 0, FALSE)
 
 //-----------------------------------------------------------------------

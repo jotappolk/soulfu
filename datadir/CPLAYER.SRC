@@ -1028,8 +1028,8 @@ int Spawn()
   if(self.class == CLASS_ELF)
     // Bonus of 30
     self.hitsmax = self.hitsmax + self.manamax + 2
-    self.str = self.str + 5
-    self.dex = self.dex + 15
+    self.str = self.str + 6
+    self.dex = self.dex + 14
     self.int = self.int + 8
     self.manamax = 0
   if(self.class == CLASS_MYSTIC)
@@ -1086,8 +1086,7 @@ int Spawn()
     self.item03 = ITEM_MANA
     self.item04 = ITEM_MANA
     self.item05 = ITEM_MANA
-    self.item06 = ITEM_BOOK_4
-    self.item07 = ITEM_FOOD
+    self.item06 = ITEM_FOOD
   if(self.class == CLASS_HEALER)
     self.eqright = ITEM_HAMMER
     self.eqleft = ITEM_SHIELD
@@ -1109,9 +1108,10 @@ int Spawn()
     self.eqleft = ITEM_BOW|ARMOR_VARIANT_MAGIC
     self.item01 = ITEM_QUIVER_10
     self.item02 = ITEM_QUIVER_10
-    self.item03 = ITEM_FOOD
-    self.item04 = ITEM_TRIPE
+    self.item03 = ITEM_QUIVER_10
+    self.item04 = ITEM_FOOD
     self.item05 = ITEM_TRIPE
+    self.item06 = ITEM_TRIPE
   if(self.class == CLASS_MYSTIC)
     self.eqright = ITEM_SHORT_SWORD
     if(RollDice(1, 100) < 50)
