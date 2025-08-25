@@ -19,12 +19,8 @@
 
 // <ZZ> This file contains functions pertaining to random numbers
 //      random_setup            - Sets up the random number table
-//      random_number()           - Returns a random number from 0 to 255
+//      random_number           - Returns a random number from 0 to 255
 //      random_dice             - Simulates a dice roll
-
-#include <stdlib.h>   // For NULL
-#include "soulfu.h"   // For TRUE/FALSE, sdf_find_index, etc.
-#include "random.h"   // Our own new header file
 
 unsigned short next_random = 0;         // The next random number to return
 unsigned short max_random = 0;          // The number of random numbers in the table
@@ -57,14 +53,9 @@ signed char random_setup(int seed)
 }
 
 //-----------------------------------------------------------------------------------------------
-// <ZZ> This macro returns a random number...  No fancy stuff...  Usage...  x = random_number();
+// <ZZ> This macro returns a random number...  No fancy stuff...  Usage...  x = random_number;
 //      Result should range from 0 - 255...
-unsigned char get_random_number(void)
-{
-    unsigned char number = random_table[next_random & and_random];
-    next_random++;
-    return number;
-}
+#define random_number  (random_table[next_random&and_random]);  { next_random++; }
 // !!!BAD!!!
 // !!!BAD!!!  Will need a larger table...
 // !!!BAD!!!
@@ -85,7 +76,7 @@ unsigned short random_dice(unsigned char number, unsigned short sides)
         repeat(i, number)
         {
             // Roll one die...
-            temp = get_random_number();
+            temp = random_number;
             temp = temp%sides;
             temp++;
 
@@ -198,7 +189,7 @@ unsigned char* random_name(unsigned char* filedata)
             // Pick a random choice for each segment...
             if(num_choice[segment] > 0)
             {
-                choice = get_random_number();
+                choice = random_number;
                 choice = choice % num_choice[segment];
 //log_message("INFO:       Choice %d (of %d)", choice, num_choice[segment]);
 
@@ -256,7 +247,7 @@ log_message("INFO:   Getting random name...");
 log_message("INFO:     %d names in file...", count);
         if(count > 0)
         {
-            count = get_random_number();
+            count = random_number;
             count = count % (*filedata);
             filedata+=(count << 4) + 16;
         }

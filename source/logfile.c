@@ -22,36 +22,25 @@
 //      close_logfile           - Closes the logfile, automatically called via atexit()
 //      open_logfile            - Opens the logfile
 
-// File: logfile.c
-
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
-#include <stdlib.h>
-#include "soulfu.h"
-#include "logfile.h"
-
-// --- Module-Private Global Variables ---
-// By making 'logfile' static, it can only be accessed by functions within this file.
-static FILE* logfile = NULL;
-int log_error_count; // This remains global because runsrc.c needs it.
+FILE* logfile = NULL;
+int log_error_count;
 
 //-----------------------------------------------------------------------------------------------
-void log_message(const char *format, ...)
+void log_message(char *format, ...)
 {
+    // <ZZ> This function spits out a message to the logfile.txt file, following standard printf
+    //      style formatting.  It also logs any errors to the message buffer (for ingame tools).
     va_list ap;
     char log_buffer[256];
 
     if(logfile)
     {
         va_start(ap, format);
-        // Using vsnprintf for safety. This prevents buffer overflows.
-        // It will not write more than sizeof(log_buffer) bytes.
-        vsnprintf(log_buffer, sizeof(log_buffer), format, ap);
+        vsprintf(log_buffer, format, ap);
         va_end(ap);
-        
         fprintf(logfile, "%s\n", log_buffer);
-        fflush(logfile); // Forces the message to be written to disk immediately.
+        fflush(logfile);
+
 
         #ifdef DEVTOOL
             if(log_buffer[0] == 'E' && log_error_count < 1)
@@ -71,9 +60,10 @@ void log_message(const char *format, ...)
 }
 
 //-----------------------------------------------------------------------------------------------
-// This is a private helper function, so we can declare it static.
-static void close_logfile(void)
+void close_logfile(void)
 {
+    // <ZZ> This function closes the logfile, and should be run automatically on program
+    //      termination...
     if(logfile)
     {
         log_message("INFO:   Log file closed");
@@ -82,15 +72,17 @@ static void close_logfile(void)
 }
 
 //-----------------------------------------------------------------------------------------------
-unsigned char open_logfile(void)
+signed char open_logfile(void)
 {
+    // <ZZ> This function opens up the LOGFILE.TXT file and registers close_logfile() to run
+    //      on program termination.  It returns TRUE if it worked okay, FALSE if there was a
+    //      problem.
     logfile = fopen("LOGFILE.TXT", "w");
     log_error_count = 0;
-    
     if(logfile)
     {
         log_message("INFO:   Log file started");
-        atexit(close_logfile); // atexit() will call close_logfile when the game exits.
+        atexit(close_logfile);
         return TRUE;
     }
     return FALSE;

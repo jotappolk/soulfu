@@ -5,7 +5,7 @@ CC = i686-w64-mingw32-gcc
 WINDRES = "C:\msys64\mingw32\bin\windres.exe"
 
 TARGET = soulfu.exe
-SRC = source/soulfu.c source/logfile.c
+SRC = source/soulfu.c
 DEP = $(wildcard source/*.c source/*.h)
 LDLIBS = -lSDL2 -lSDL2_net -l:libjpeg.a -l:libvorbis.a -l:libogg.a -lopengl32
 FLAGS = -DDEVTOOL
